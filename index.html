@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>📦箱詰めシミュレーター</title>
+    <title>📦装箱模拟器</title>
     <style>
         :root { --panel-width: 300px; }
-        body { margin: 0; font-family: 'Helvetica Neue', Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif; background: #ffffff; overflow: hidden; }
-        /* #ui-panel の更新 */
+        body { margin: 0; font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif; background: #ffffff; overflow: hidden; }
+        /* #ui-panel 的更新 */
         #ui-panel {
             position: absolute; 
             top: 10px; 
             left: 10px; 
             width: var(--panel-width);
             max-height: calc(100vh - 20px);
-            max-height: calc(100dvh - 20px); /* 可変ビューポート対応 */
+            max-height: calc(100dvh - 20px); /* 适配可变视口 */
             background: rgba(255, 255, 255, 0.95); 
             padding: 15px; 
             padding-bottom: 40px; 
@@ -44,7 +44,7 @@
             .input-group { padding: 8px; margin-bottom: 5px; }
         }
 
-        /* 折りたたんだ（閉じた）時の専用スタイル */
+        /* 折叠（收起）状态的专用样式 */
         #ui-panel.collapsed {
             max-height: none !important;
             padding: 10px 15px !important;
@@ -54,11 +54,11 @@
         }
 
         @media screen and (max-width: 480px) { 
-            /* スマホ表示で閉じた場合、右端の固定を解除してタイトルサイズへ収める */
+            /* 手机端收起时解除右端固定，收进标题尺寸 */
             #ui-panel.collapsed { right: auto; }
         }
 
-        /* ヘッダーをパネル上部に固定（スクロールしても上に張り付く） */
+        /* 头部固定在面板顶部（滚动时依然吸顶） */
         .panel-header { 
             display: flex; 
             justify-content: space-between; 
@@ -66,8 +66,8 @@
             cursor: pointer; 
             user-select: none; 
             gap: 10px; 
-            position: sticky; /* パネル内スクロール時も上に固定 */
-            top: -15px;       /* padding 分を相殺 */
+            position: sticky; /* 面板内滚动时同样置顶 */
+            top: -15px;       /* 抵消 padding 的高度 */
             background: rgba(255, 255, 255, 0.95);
             padding: 10px 0;
             margin: -15px -15px 10px -15px;
@@ -83,7 +83,7 @@
             background: #eee; 
             padding: 4px 10px; 
             border-radius: 10px; 
-            white-space: nowrap; /* テキストの意図しない改行を防止 */
+            white-space: nowrap; /* 防止文本意外换行 */
         }
         .collapsed #ui-content { display: none; }
 
@@ -92,7 +92,7 @@
             margin: 0; 
             color: #333; 
             font-weight: bold; 
-            white-space: nowrap; /* タイトルの改行を防止 */
+            white-space: nowrap; /* 防止标题换行 */
         }
         .app-description { font-size: 11px; color: #777; margin-top: 8px; margin-bottom: 5px; line-height: 1.5; text-align: center; }
         
@@ -127,13 +127,13 @@
 
         .color-picker { width: 100%; height: 38px; border: 2px solid #999; border-radius: 4px; cursor: pointer; padding: 0; background: none; appearance: none; -webkit-appearance: none; }
         
-        /* ラジオボタン切替エリア（外枠・背景） */
+        /* 单选按钮切换区（外框・背景） */
         .radio-switch { display: flex; gap: 4px; background: #eee; padding: 3px; border-radius: 8px; margin-top: 2px; }
-        /* 選択肢（ボタン部分）のベース */
+        /* 选项（按钮部分）的基础样式 */
         .radio-switch label { flex: 1; text-align: center; font-size: 11px; font-weight: bold; padding: 6px 0; border-radius: 6px; cursor: pointer; color: #666; transition: 0.2s; user-select: none; }
-        /* 本来のラジオボタン丸アイコンを非表示にする */
+        /* 隐藏原本的单选圆形图标 */
         .radio-switch input { display: none; }
-        /* 選択されている項目のスタイル（白背景＆影をつける） */
+        /* 被选中项的样式（白底加阴影） */
         .radio-switch input:checked + label { background: white; color: #333; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
         .switch-btn { width: 100%; padding: 12px; background: #333; color: white; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 14px; -webkit-tap-highlight-color: transparent; margin-bottom: 10px; }
@@ -202,115 +202,115 @@
 
 <div id="ui-panel">
     <div class="panel-header" onclick="togglePanel()">
-        <h1 class="app-title">📦箱詰めシミュレーター</h1>
-        <span id="toggle-text">閉じる</span>
+        <h1 class="app-title">📦装箱模拟器</h1>
+        <span id="toggle-text">收起</span>
     </div>
 
     <div id="ui-content">
-        <p class="app-description">箱詰めシチュエーションをシミュレーションします。<br>ポーズは自動で最適化されます。<br>
-※ポーズの選択肢はあくまでも目安です。</p>
+        <p class="app-description">可以模拟装箱的场景。<br>姿势会自动优化。<br>
+※姿势选项仅供参考。</p>
         
         <div class="input-group group-a">
             <div class="section-header"><strong>A</strong></div>
             <div class="input-row">
-                <div class="input-item"><span class="hint">名前</span><input type="text" id="nameA" placeholder="名前A" oninput="updateScene()"></div>
-                <div class="input-item" style="flex: 0.6;"><span class="hint">性別</span><select id="genderA" onchange="updateScene()"><option value="male">男</option><option value="female" selected>女</option></select></div>
+                <div class="input-item"><span class="hint">名字</span><input type="text" id="nameA" placeholder="名字A" oninput="updateScene()"></div>
+                <div class="input-item" style="flex: 0.6;"><span class="hint">性别</span><select id="genderA" onchange="updateScene()"><option value="male">男</option><option value="female" selected>女</option></select></div>
             </div>
             <div class="input-row">
-                <div class="input-item"><span class="hint">身長 (cm)</span><input type="number" id="heightA" value="158.0" step="0.1" oninput="updateScene()"></div>
-                <div class="input-item" style="flex: 0.35;"><span class="hint">色</span><input type="color" id="colorA" class="color-picker" value="#ffcc99" oninput="updateScene()"></div>
+                <div class="input-item"><span class="hint">身高 (cm)</span><input type="number" id="heightA" value="158.0" step="0.1" oninput="updateScene()"></div>
+                <div class="input-item" style="flex: 0.35;"><span class="hint">颜色</span><input type="color" id="colorA" class="color-picker" value="#ffcc99" oninput="updateScene()"></div>
             </div>
         </div>
 
         <div class="input-group group-b">
             <div class="section-header"><strong>B</strong></div>
             <div class="input-row">
-                <div class="input-item"><span class="hint">名前</span><input type="text" id="nameB" placeholder="名前B" oninput="updateScene()"></div>
-                <div class="input-item" style="flex: 0.6;"><span class="hint">性別</span><select id="genderB" onchange="updateScene()"><option value="male" selected>男</option><option value="female">女</option></select></div>
+                <div class="input-item"><span class="hint">名字</span><input type="text" id="nameB" placeholder="名字B" oninput="updateScene()"></div>
+                <div class="input-item" style="flex: 0.6;"><span class="hint">性别</span><select id="genderB" onchange="updateScene()"><option value="male" selected>男</option><option value="female">女</option></select></div>
             </div>
             <div class="input-row">
-                <div class="input-item"><span class="hint">身長 (cm)</span><input type="number" id="heightB" value="171.5" step="0.1" oninput="updateScene()"></div>
-                <div class="input-item" style="flex: 0.35;"><span class="hint">色</span><input type="color" id="colorB" class="color-picker" value="#ffad60" oninput="updateScene()"></div>
+                <div class="input-item"><span class="hint">身高 (cm)</span><input type="number" id="heightB" value="171.5" step="0.1" oninput="updateScene()"></div>
+                <div class="input-item" style="flex: 0.35;"><span class="hint">颜色</span><input type="color" id="colorB" class="color-picker" value="#ffad60" oninput="updateScene()"></div>
             </div>
         </div>
 
         <div class="input-group group-layout">
-            <div class="section-header"><strong>📦 箱</strong></div>
+            <div class="section-header"><strong>📦 箱子</strong></div>
             <div class="input-item">
-                <span class="hint">箱のタイプ</span>
+                <span class="hint">箱子类型</span>
                 <div class="radio-switch">
-                    <input type="radio" name="boxType" id="boxTypeBox" value="box" checked onchange="onBoxTypeChange()"><label for="boxTypeBox">📦 箱（座る・寝る）</label>
-                    <input type="radio" name="boxType" id="boxTypeLocker" value="locker" onchange="onBoxTypeChange()"><label for="boxTypeLocker">🧹 掃除用ロッカー（立つ）</label>
+                    <input type="radio" name="boxType" id="boxTypeBox" value="box" checked onchange="onBoxTypeChange()"><label for="boxTypeBox">📦 箱子（坐着・躺着）</label>
+                    <input type="radio" name="boxType" id="boxTypeLocker" value="locker" onchange="onBoxTypeChange()"><label for="boxTypeLocker">🧹 清洁柜（站立）</label>
                 </div>
             </div>
             <div class="input-item">
-                <span class="hint">箱のサイズ</span>
+                <span class="hint">箱子尺寸</span>
                 <div class="radio-switch">
-                    <input type="radio" name="boxMode" id="boxModeAuto" value="auto" checked onchange="updateScene()"><label for="boxModeAuto">自動（ぴったり）</label>
-                    <input type="radio" name="boxMode" id="boxModeManual" value="manual" onchange="updateScene()"><label for="boxModeManual">手動</label>
+                    <input type="radio" name="boxMode" id="boxModeAuto" value="auto" checked onchange="updateScene()"><label for="boxModeAuto">自动（刚好贴合）</label>
+                    <input type="radio" name="boxMode" id="boxModeManual" value="manual" onchange="updateScene()"><label for="boxModeManual">手动</label>
                 </div>
             </div>
             <div class="input-row" id="boxManual" style="display:none;">
                 <div class="input-item"><span class="hint">幅 (cm)</span><input type="number" id="boxW" value="90" step="1" oninput="updateScene()"></div>
                 <div class="input-item"><span class="hint">奥行 (cm)</span><input type="number" id="boxD" value="90" step="1" oninput="updateScene()"></div>
-                <div class="input-item"><span class="hint">高さ (cm)</span><input type="number" id="boxH" value="100" step="1" oninput="updateScene()"></div>
+                <div class="input-item"><span class="hint">高度 (cm)</span><input type="number" id="boxH" value="100" step="1" oninput="updateScene()"></div>
             </div>
             <div class="input-item">
-                <span class="hint">フタ</span>
+                <span class="hint">盖子</span>
                 <div class="radio-switch">
-                    <input type="radio" name="lidMode" id="lidOff" value="off" checked onchange="updateScene()"><label for="lidOff">なし</label>
-                    <input type="radio" name="lidMode" id="lidOn" value="on" onchange="updateScene()"><label for="lidOn">あり</label>
+                    <input type="radio" name="lidMode" id="lidOff" value="off" checked onchange="updateScene()"><label for="lidOff">不加盖</label>
+                    <input type="radio" name="lidMode" id="lidOn" value="on" onchange="updateScene()"><label for="lidOn">加盖</label>
                 </div>
             </div>
             <div class="input-item">
-                <span class="hint">ポーズ</span>
+                <span class="hint">姿势</span>
                 <select id="poseFamily" onchange="onPoseSelect()">
-                    <option value="auto" selected>おまかせ（自動で最適化）</option>
-                    <option value="between">膝の間に座る（向かい合わない）</option>
-                    <option value="betweenF">膝の間に座る（向かい合う）</option>
-                    <option value="laplap">膝の上に座る（向かい合わない）</option>
-                    <option value="laplapF">膝の上に座る（向かい合う）</option>
-                    <option value="facingKnees">向かい合って座る（体操座り）</option>
-                    <option value="facingWrap">向かい合って座る（脚で挟む）</option>
-                    <option value="cradle">横抱きで座る</option>
-                    <option value="side">並んで座る</option>
-                    <option value="lying">寝そべる</option>
-                    <option value="overAllFours">四つん這いで覆いかぶさる</option>
-                    <option value="overAllFoursWide">四つん這いで覆いかぶさる（脚を広げて胴体をまたぐ）</option>
-                    <option value="overAllFoursOff">四つん這いで覆いかぶさる（顔が重ならない）</option>
-                    <option value="reverseStack">逆向きに重なって寝る</option>
-                    <option value="reverseStackWide">逆向きに重なって寝る（脚を広げて胴体をまたぐ）</option>
-                    <option value="standFace" data-kind="locker" hidden disabled>向かい合って立つ</option>
-                    <option value="standBack" data-kind="locker" hidden disabled>前後に重なって立つ（同じ向き）</option>
-                    <option value="standSide" data-kind="locker" hidden disabled>並んで立つ</option>
+                    <option value="auto" selected>自动推荐（自动优化）</option>
+                    <option value="between">坐在两膝之间（不面对面）</option>
+                    <option value="betweenF">坐在两膝之间（面对面）</option>
+                    <option value="laplap">坐在大腿上（不面对面）</option>
+                    <option value="laplapF">坐在大腿上（面对面）</option>
+                    <option value="facingKnees">面对面坐下（盘腿坐）</option>
+                    <option value="facingWrap">面对面坐下（用腿夹住）</option>
+                    <option value="cradle">横抱着坐</option>
+                    <option value="side">并排坐</option>
+                    <option value="lying">躺卧</option>
+                    <option value="overAllFours">四肢着地俯身覆盖</option>
+                    <option value="overAllFoursWide">四肢着地俯身覆盖（双腿张开跨过躯干）</option>
+                    <option value="overAllFoursOff">四肢着地俯身覆盖（脸不重叠）</option>
+                    <option value="reverseStack">反向叠着躺</option>
+                    <option value="reverseStackWide">反向叠着躺（双腿张开跨过躯干）</option>
+                    <option value="standFace" data-kind="locker" hidden disabled>面对面站立</option>
+                    <option value="standBack" data-kind="locker" hidden disabled>前后重叠站立（同向）</option>
+                    <option value="standSide" data-kind="locker" hidden disabled>并排站立</option>
                 </select>
             </div>
-            <button class="switch-btn" style="margin: 4px 0 0 0;" onclick="reroll()">🎲 別のポーズを探す</button>
+            <button class="switch-btn" style="margin: 4px 0 0 0;" onclick="reroll()">🎲 换个姿势</button>
         </div>
 
         <div style="padding: 0 5px;">
-            <button class="switch-btn swap-btn" onclick="swapAB()">⇄ AとBを入れ替える</button>
-            <button class="switch-btn" onclick="switchView()">🔄 視点を切り替える</button>
+            <button class="switch-btn swap-btn" onclick="swapAB()">⇄ 交换 A 与 B</button>
+            <button class="switch-btn" onclick="switchView()">🔄 切换视角</button>
         </div>
         
         <div id="info-container">
             <div class="info-box" id="info"></div>
             <button class="share-btn" onclick="shareToX()">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>で結果をシェアする
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg> 分享结果
             </button>
             <div class="other-tools-link">
-                <p style="font-size: 10px; color: #888; margin-bottom: 8px;">こちらもチェック❣🤩</p>
-                <a href="https://qwertyaz111.github.io/my-site-hub/">ツール・シミュレーター一覧</a>
+                <p style="font-size: 10px; color: #888; margin-bottom: 8px;">顺便也看看这些❣🤩</p>
+                <a href="https://qwertyaz111.github.io/my-site-hub/">工具・模拟器合集</a>
             </div>
             <div class="usage-notes">
-                スクショ投稿や加工、トレース等はご自由にお楽しみください。<br>
-                ※営利目的や商用利用はご遠慮ください。
+                截图分享、二次加工、临摹描图等都可以随意使用。<br>
+                ※请勿用于营利、商业用途。
             </div>
         </div>
     </div>
 </div>
 
-<div id="view-label">三人称視点</div>
+<div id="view-label">第三人称视角</div>
 <div class="crosshair" id="crosshair" style="display:none;"></div>
 <div id="canvas-container"></div>
 
@@ -320,27 +320,27 @@ import * as THREE from 'https://unpkg.com/three@0.158.0/build/three.module.js';
 let scene, camera, renderer, clock;
 let personA, personB, walkGroup;
 let currentView = '3rd';
-let carrySide = 1; // 三人称視点の初期の向き（1＝固定。配置設定は削除済み）
-let boxGroup;                       // 透明な箱
-let currentBox = { W: 0.9, D: 0.9, H: 1.1, locker: false };   // 現在の箱の内寸(m)
+let carrySide = 1; // 第三人称视角的初始朝向（1＝固定。布局设置已删除）
+let boxGroup;                       // 透明箱子
+let currentBox = { W: 0.9, D: 0.9, H: 1.1, locker: false };   // 当前箱子的内尺寸(m)
 let solverRun = null, solverTimer = null, solveToken = 0, pendingKey = '';
 let lastResult = null, lastKey = '', solving = false, variantSeed = 1;
-let diceAuto = false, rerollPending = false;   // 🎲で探したポーズをポーズ欄に映している間は true（このときは全ポーズから探す）
-let scanRun = null, scanParams = null, scanDoneKey = '';   // 「この身長で成り立つポーズ」を調べる裏処理
+let diceAuto = false, rerollPending = false;   // 🎲 随机选中的姿势正在同步到姿势栏时为 true（此时会从全部姿势中寻找）
+let scanRun = null, scanParams = null, scanDoneKey = '';   // 后台处理：调查“这个身高下可行的姿势”
 const FAMILY_NAMES = {
-    between: '膝の間に座る（向かい合わない）', betweenF: '膝の間に座る（向かい合う）',
-    laplap: '膝の上に座る（向かい合わない）', laplapF: '膝の上に座る（向かい合う）',
-    facingKnees: '向かい合って座る（体操座り）', facingWrap: '向かい合って座る（脚で挟む）',
-    cradle: '横抱きで座る', side: '並んで座る', lying: '寝そべる',
-    overAllFours: '四つん這いで覆いかぶさる', reverseStack: '逆向きに重なって寝る',
-    overAllFoursWide: '四つん這いで覆いかぶさる（脚を広げて胴体をまたぐ）', overAllFoursOff: '四つん這いで覆いかぶさる（顔が重ならない）',
-    reverseStackWide: '逆向きに重なって寝る（脚を広げて胴体をまたぐ）',
-    standFace: '向かい合って立つ', standBack: '前後に重なって立つ（同じ向き）', standSide: '並んで立つ'
+    between: '坐在两膝之间（不面对面）', betweenF: '坐在两膝之间（面对面）',
+    laplap: '坐在大腿上（不面对面）', laplapF: '坐在大腿上（面对面）',
+    facingKnees: '面对面坐下（盘腿坐）', facingWrap: '面对面坐下（用腿夹住）',
+    cradle: '横抱着坐', side: '并排坐', lying: '躺卧',
+    overAllFours: '四肢着地俯身覆盖', reverseStack: '反向叠着躺',
+    overAllFoursWide: '四肢着地俯身覆盖（双腿张开跨过躯干）', overAllFoursOff: '四肢着地俯身覆盖（脸不重叠）',
+    reverseStackWide: '反向叠着躺（双腿张开跨过躯干）',
+    standFace: '面对面站立', standBack: '前后重叠站立（同向）', standSide: '并排站立'
 };
-const BOX_DEFAULT = { W: 90, D: 90, H: 100 };       // 箱の手動サイズの初期値(cm)
-const LOCKER_DEFAULT = { W: 60, D: 60, H: 180 };    // 掃除用ロッカーの手動サイズの初期値(cm)
-let lastScan = null;                       // 直近の「成り立つポーズ」調査結果
-const DEFAULT_ROT_3RD = { x: 0.2, y: 0.45 }; // 三人称の初期は斜め前から見る
+const BOX_DEFAULT = { W: 90, D: 90, H: 100 };       // 箱子手动尺寸的初始值(cm)
+const LOCKER_DEFAULT = { W: 60, D: 60, H: 180 };    // 清洁柜手动尺寸的初始值(cm)
+let lastScan = null;                       // 最近一次“可行姿势”的调查结果
+const DEFAULT_ROT_3RD = { x: 0.2, y: 0.45 }; // 第三人称初始从斜前方看
 let rotation = { x: DEFAULT_ROT_3RD.x, y: DEFAULT_ROT_3RD.y }, camDist = 2.4, isDragging = false, previousTouch = null, initialPinchDist = null;
 
 function init() {
@@ -390,17 +390,17 @@ function init() {
         const panel = document.getElementById('ui-panel');
         const text = document.getElementById('toggle-text');
         panel.classList.toggle('collapsed');
-        text.innerText = panel.classList.contains('collapsed') ? '開く' : '閉じる';
+        text.innerText = panel.classList.contains('collapsed') ? '展开' : '收起';
     };
 
-    // 入力フォームからフォーカスが外れた際に、パネルのスクロール位置を上部へリセットする
+    // 输入框失焦时，把面板的滚动位置重置回顶部
     document.querySelectorAll('#ui-panel input, #ui-panel select').forEach(element => {
         element.addEventListener('blur', () => {
             const panel = document.getElementById('ui-panel');
             if (panel) {
                 panel.scrollTop = 0;
             }
-            // iOS Safari等の画面全体のズレ防止策
+            // 防止 iOS Safari 等设备上整屏偏移的对策
             window.scrollTo(0, 0);
         });
     });
@@ -469,7 +469,7 @@ function createMannequin(color, heightCm, gender, name, role, otherConfig) {
 
     group.arms = [];
     const armThickness = torsoW * 0.3;
-    const shoulderW = (torsoW * 0.5) + (armThickness * 0.2); // 肩の回転軸を胴体の側面ぎりぎりに置いて、腕を動かしても胴体から離れすぎないようにする（大きいほど離れる）
+    const shoulderW = (torsoW * 0.5) + (armThickness * 0.2); // 把肩膀的旋转轴放在紧贴躯干侧面的位置，即使活动手臂也不会离躯干太远（数值越大越远）
     const shoulderY = legH + torsoH - (torsoW * 0.15); 
     const armLen = h * 0.38;
 
@@ -513,16 +513,16 @@ function createMannequin(color, heightCm, gender, name, role, otherConfig) {
 }
 
 // ===================================================================
-// 箱詰めソルバー：体どうし・箱にめり込まず、関節が不自然に曲がらない姿勢を自動で探す
-// （three.jsには依存しない計算部分。腕・脚は2分割の箱形状でそのまま衝突判定している）
+// 装箱求解器：自动寻找身体互不陷入・不穿进箱壁、关节不别扭的姿势
+// （不依赖 three.js 的计算部分。手臂・腿按两段的箱体形状直接做碰撞判定）
 // ===================================================================
-// ================= 箱詰めソルバー（three.jsに依存しない純粋な数学） =================
+// ================= 装箱求解器（不依赖 three.js 的纯数学） ==================
 const PI = Math.PI;
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 function gauss(r){let u=0,v=0;while(u===0)u=r();while(v===0)v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*PI*v);}
 function clampN(v,a,b){return v<a?a:(v>b?b:v);}
 
-// ----- クォータニオン [x,y,z,w] -----
+// ----- 四元数 [x,y,z,w] -----
 function qMul(a,b){return [a[3]*b[0]+a[0]*b[3]+a[1]*b[2]-a[2]*b[1], a[3]*b[1]-a[0]*b[2]+a[1]*b[3]+a[2]*b[0], a[3]*b[2]+a[0]*b[1]-a[1]*b[0]+a[2]*b[3], a[3]*b[3]-a[0]*b[0]-a[1]*b[1]-a[2]*b[2]];}
 function qX(a){return [Math.sin(a/2),0,0,Math.cos(a/2)];}
 function qY(a){return [0,Math.sin(a/2),0,Math.cos(a/2)];}
@@ -540,14 +540,14 @@ function qAxes(q){
 }
 function vAdd(a,b){return [a[0]+b[0],a[1]+b[1],a[2]+b[2]];}
 function vScale(a,s){return [a[0]*s,a[1]*s,a[2]*s];}
-// 真下向きの棒を d の向きへ回す（three.jsのaim()と同じ：回転順XYZ）
+// 把朝正下方的棍子转向 d 的方向（与 three.js 的 aim() 相同：旋转顺序 XYZ）
 function qAim(d){
     const l=Math.hypot(d[0],d[1],d[2])||1;
     const dx=d[0]/l, dy=d[1]/l, dz=d[2]/l;
     return qMul(qX(Math.atan2(-dz,-dy)), qZ(Math.asin(clampN(dx,-1,1))));
 }
 
-// ----- 体の寸法（createMannequinと同じ比率） -----
+// ----- 身体尺寸（与 createMannequin 相同的比例） -----
 function makeDims(heightCm, gender){
     const h=heightCm*0.01, headH=h*0.13, neckH=h*0.05, torsoH=h*0.37, legH=h*0.45;
     const torsoW=(gender==='male'?0.26:0.21)*(h/1.7), torsoD=torsoW*0.5;
@@ -559,13 +559,13 @@ function makeDims(heightCm, gender){
         headYRel:h-headH*0.5-legH, legX:torsoW*0.25};
 }
 
-// ----- 姿勢パラメーター -----
-// 体: [px,py,pz,yaw,pitch,roll, 背骨前後,背骨左右,背骨ひねり, 左脚(股屈曲,開き,ひねり,膝), 右脚(同)]
+// ----- 姿势参数 -----
+// 身体: [px,py,pz,yaw,pitch,roll, 脊柱前后,脊柱左右,脊柱扭转, 左腿(髋屈曲,张开,扭转,膝), 右腿(同)]
 const GN=17;
 const G_LO=[-3,0,-3,-1e9,-1.8,-1.8,-0.5,-0.5,-0.8, -0.5,-0.35,-1.0,0, -0.5,-0.35,-1.0,0];
 const G_HI=[ 3,3, 3, 1e9, 1.8, 1.8, 1.25,0.5,0.8,  2.1,1.0,1.2,2.55,  2.1,1.0,1.2,2.55];
 const G_SIG=[0.05,0.03,0.05,0.25,0.25,0.15,0.18,0.12,0.2, 0.25,0.15,0.25,0.3, 0.25,0.15,0.25,0.3];
-// 腕: [左(肩前,肩開き,肩ひねり,肘), 右(同)]
+// 手臂: [左(肩前,肩张开,肩扭转,肘), 右(同)]
 const A_LO=[-0.9,-0.5,-1.2,0, -0.9,-0.5,-1.2,0];
 const A_HI=[ 2.9, 2.6, 1.2,2.5,  2.9, 2.6, 1.2,2.5];
 const ARM_NEUTRAL=[0.15,0.3,0,0.45, 0.15,0.3,0,0.45];
@@ -576,8 +576,8 @@ function limbDirsArm(arm,i){
     const Rh=qMul(qMul(qZ(s*a),qX(-f)),qY(-s*r));
     return {dU:qRot(Rh,[0,-1,0]), dL:qRot(qMul(Rh,qX(-e)),[0,-1,0])};
 }
-// ana=true のときは「脚を横に開いてから前に上げる」解剖学的な順序（座ったままでも膝が左右に開ける）。
-// ana=false は従来どおり（他のポーズの形は変えない）
+// ana=true 时采用“先把腿向两侧张开再向前抬”的解剖学顺序（坐着时膝盖也能左右打开）。
+// ana=false 与以往相同（不改变其它姿势的形状）
 function limbDirsLeg(g,i,ana){
     const s=i===0?-1:1, o=9+i*4;
     const flex=g[o],abd=g[o+1],ext=g[o+2],knee=g[o+3];
@@ -587,7 +587,7 @@ function limbDirsLeg(g,i,ana){
 function rootQ(g){return qMul(qMul(qY(g[3]),qX(g[4])),qZ(g[5]));}
 function spineQ(g){return qMul(qMul(qX(g[6]),qZ(g[7])),qY(g[8]));}
 
-// ----- 当たり判定用パーツ -----
+// ----- 用于碰撞判定的部件 -----
 function mkObb(c,q,e){
     const a=qAxes(q);
     const ex=e[0]*Math.abs(a[0])+e[1]*Math.abs(a[3])+e[2]*Math.abs(a[6]);
@@ -596,7 +596,7 @@ function mkObb(c,q,e){
     return {s:false,c,a,e,ex,ey,ez,br:Math.hypot(e[0],e[1],e[2])};
 }
 function mkSphere(c,r){return {s:true,c,r,ex:r,ey:r,ez:r,br:r};}
-// 腕・脚（2分割＋関節）
+// 手臂・腿（两段＋关节）
 function limb(frameQ,origin,dU,dL,half,t,P,idx){
     const qU=qAim(dU);
     const qa=qMul(frameQ,qU);
@@ -609,7 +609,7 @@ function limb(frameQ,origin,dU,dL,half,t,P,idx){
     P[idx+1]=mkObb(vAdd(knee,vScale(downL,half/2)),qb,[t/2,half/2,t/2]);
     return vAdd(knee,vScale(downL,half));
 }
-// 0胴 1頭 2左上腕 3左前腕 4右上腕 5右前腕 6左もも 7左すね 8右もも 9右すね
+// 0躯干 1头 2左上臂 3左前臂 4右上臂 5右前臂 6左大腿 7左小腿 8右大腿 9右小腿
 function buildBody(d,g,arm,ana){
     const Rr=rootQ(g), Rt=qMul(Rr,spineQ(g));
     const hip=[g[0],g[1],g[2]];
@@ -633,7 +633,7 @@ function buildBody(d,g,arm,ana){
     return P;
 }
 
-// ----- 衝突の深さ -----
+// ----- 碰撞深度 -----
 function obbDepth(A,B){
     const t0=B.c[0]-A.c[0], t1=B.c[1]-A.c[1], t2=B.c[2]-A.c[2];
     const a=A.a,b=B.a,ea=A.e,eb=B.e;
@@ -666,7 +666,7 @@ function obbDepth(A,B){
     }
     return best;
 }
-// 符号つき距離（正＝離れている：SATの最大分離量、負＝めり込み）
+// 带符号距离（正＝分离：SAT 的最大分离量，负＝陷入）
 function obbSep(A,B){
     const t0=B.c[0]-A.c[0], t1=B.c[1]-A.c[1], t2=B.c[2]-A.c[2];
     const a=A.a,b=B.a,ea=A.e,eb=B.e;
@@ -707,7 +707,7 @@ function pairDepth(P,Q){
     if(Q.s) return sphereObbDepth(Q,P);
     return obbDepth(P,Q);
 }
-// 点とOBB表面の距離
+// 点到 OBB 表面的距离
 function pointObbDist(p,O){
     const dx=p[0]-O.c[0],dy=p[1]-O.c[1],dz=p[2]-O.c[2];
     if(O.s){return Math.max(0,Math.sqrt(dx*dx+dy*dy+dz*dz)-O.r);}
@@ -717,7 +717,7 @@ function pointObbDist(p,O){
     return Math.sqrt(q0*q0+q1*q1+q2*q2);
 }
 
-// 自分の体どうしの干渉判定（隣り合う関節は除外・少しの重なりは許容）
+// 自身各部位之间的干涉判定（排除相邻关节・允许少量重叠）
 const SELF_PAIRS=[
     [1,2,0.012],[1,4,0.012],[1,3,0.004],[1,5,0.004],[1,6,0],[1,7,0],[1,8,0],[1,9,0],
     [0,2,0.03],[0,4,0.03],[0,3,0.012],[0,5,0.012],[0,7,0.01],[0,9,0.01],
@@ -782,65 +782,65 @@ function evalParts(ctx,PA,PB,gA,gB,useArms){
     const self=selfPen(PA,useArms)+selfPen(PB,useArms);
     const viol=boxV+pair+self;
     const W=ctx.W;
-    // ---- 品質項 ----
+    // ---- 质量项 ----
     let Q=0;
-    // 重力（重心が低いほど安定）
+    // 重力（重心越低越稳定）
     let my=0,mt=0;
     for(let k=0;k<idx.length;k++){ my+=ctx.wA[idx[k]]*PA[idx[k]].c[1]+ctx.wB[idx[k]]*PB[idx[k]].c[1]; mt+=ctx.wA[idx[k]]+ctx.wB[idx[k]]; }
     Q+=W.grav*(my/mt);
-    // 胴体どうしが寄り添う
+    // 躯干彼此贴近
     const gap=obbSep(PA[0],PB[0]);
     if(gap>0.015) Q+=W.contact*(gap-0.015);
-    // 顔が近い
+    // 脸靠近
     const hd=Math.hypot(PA[1].c[0]-PB[1].c[0],PA[1].c[1]-PB[1].c[1],PA[1].c[2]-PB[1].c[2])-(PA[1].r+PB[1].r);
     if(hd>0.06) Q+=W.face*(hd-0.06);
-    // 首のひねり（お互いの顔が見える向きか）
+    // 颈部扭转（朝向能否看到对方的脸）
     Q+=W.gaze*(gazeExcess(PA,PB)+gazeExcess(PB,PA));
-    // 無理のない姿勢
+    // 不做作的姿势
     Q+=W.comfort*(comfort(gA)+comfort(gB));
-    // 胴の傾き（座位を好む）
+    // 躯干倾斜（偏好坐姿）
     Q+=W.tilt*(tilt(PA)+tilt(PB));
     if(ctx.box.auto){
         const vol=(bb.x1-bb.x0)*(bb.z1-bb.z0)*bb.y1;
         Q+=W.vol*vol;
-        // ロッカーは縦長で体積の差が出にくいので、床面積（幅×奥行）をできるだけ小さくする
+        // 储物柜为竖向，体积差异不易体现，因此尽量减小占地面积（宽×深）
         if(ctx.box.locker) Q+=W.foot*(bb.x1-bb.x0)*(bb.z1-bb.z0);
     } else {
-        // 手動サイズ：箱の広さをのびのび使う（床面をできるだけ広く使い、箱の中央に収まる）
+        // 手动尺寸：宽松利用箱内空间（尽量铺开底面，并收在箱子中央）
         Q-=W.space*(Math.min(1,(bb.x1-bb.x0)/ctx.box.W)+Math.min(1,(bb.z1-bb.z0)/ctx.box.D));
         Q+=W.center*(Math.abs((bb.x0+bb.x1)/2)+Math.abs((bb.z0+bb.z1)/2));
     }
-    // 選んだポーズの型から外れていないか（外れた分だけ大きく減点）
+    // 是否偏离所选姿势的模板（偏离越多扣分越多）
     BOXH=ctx.box.auto?9:ctx.box.H;
     const fpen=ctx.fp?famPen(ctx.fp,gA,gB,PA,PB):0;
     const J=W.viol*viol+Q+W.fam*fpen;
     return {J,viol,boxV,pair,pairMax,self,Q,bb,fpen,pv:pair+self,Qf:Q+W.fam*fpen,W:W.viol};
 }
 
-// ================= ポーズ型の制約 =================
-// fp={fam,top}：top＝上に座る／前に座る側（0=A, 1=B）。もう一方が土台（B側）になる
+// ================= 姿势模板的约束 ==================
+// fp={fam,top}：top＝坐在上方／坐在前方的一方（0=A, 1=B）。另一方作为支撑（B 侧）
 function exc(v,lo,hi){return v<lo?lo-v:(v>hi?v-hi:0);}
 function pFwd(g){const f=qRot(rootQ(g),[0,0,1]);const l=Math.hypot(f[0],f[2])||1;return [f[0]/l,f[2]/l];}
 function torsoTilt(P){return Math.acos(clampN(P[0].a[4],-1,1));}
-// 座っている人の「自然な姿勢」：骨盤・背骨を倒しすぎない／脚が内側で交差しない／上体が傾きすぎない
+// 坐着的人的“自然姿势”：骨盆・脊柱不过度后倒／双腿不在内侧交叉／上身不过度倾斜
 function sitPen(g,P,lim){
     let p=exc(Math.abs(g[4]),0,0.3)+exc(Math.abs(g[5]),0,0.2)+exc(g[6],-0.3,0.5)+exc(Math.abs(g[7]),0,0.2)+exc(Math.abs(g[8]),0,0.4);
     p+=exc(g[10],-0.05,9)+exc(g[14],-0.05,9);
-    p+=exc(Math.abs(g[9]-g[13]),0,0.5)+exc(Math.abs(g[12]-g[16]),0,0.9); // 左右の脚をそろえる
+    p+=exc(Math.abs(g[9]-g[13]),0,0.5)+exc(Math.abs(g[12]-g[16]),0,0.9); // 让左右腿保持一致
     p+=exc(torsoTilt(P),0,lim);
     return p;
 }
-// 体操座り：ももを引き寄せ、ひざを深く曲げる
+// 盘腿坐：收拢大腿，膝盖深屈
 function kneesUp(g){return exc(g[9],1.5,9)+exc(g[13],1.5,9)+exc(g[12],1.5,9)+exc(g[16],1.5,9);}
-// 脚の動かし方を「解剖学的な順序」にするポーズ（膝を左右に開く／脚で跨ぐ／まっすぐ立つ）
+// 采用“解剖学顺序”活动腿部的姿势（膝盖左右打开／用腿跨过／笔直站立）
 const ALLFOURS_FAMS={overAllFours:1,overAllFoursWide:1,overAllFoursOff:1};
 const ANA_FAMS={overAllFours:1,overAllFoursWide:1,overAllFoursOff:1,reverseStack:1,reverseStackWide:1,between:1,betweenF:1,facingWrap:1,standFace:1,standBack:1,standSide:1};
 function setFp(ctx,fp){ ctx.fp=fp; ctx.ana=!!ANA_FAMS[fp.fam]; }
-// ひざ（ももの先）の位置
+// 膝盖（大腿末端）的位置
 function kneePt(P,k){const o=P[k],a=o.a,h=o.e[1];return [o.c[0]-a[3]*h,o.c[1]-a[4]*h,o.c[2]-a[5]*h];}
-// 土台Sの横方向（Sの右向き）の座標
+// 支撑者 S 的横向（S 的右方向）坐标
 function latOf(ph,fS,p){return (p[0]-ph[0])*fS[1]-(p[2]-ph[2])*fS[0];}
-// 土台Sが両ひざを開き、Tの胴体がそのあいだ（開いた空間）に収まっているか
+// 支撑者 S 是否双膝打开，让 T 的躯干收在其间（张开的空间）
 function openKnees(PS,PT,fS,gap){
     const ph=PS.hip, lT=latOf(ph,fS,PT[0].c), need=PT[0].e[0]+gap;
     let p=0;
@@ -850,10 +850,10 @@ function openKnees(PS,PT,fS,gap){
     }
     return p;
 }
-// 立っている人の「自然な姿勢」：足が床につき、ひざ・上体をほぼまっすぐ保つ
-let BOXH=9;   // 今評価している箱の高さ(m)。自動サイズのときは十分高い
+// 站立者的“自然姿势”：脚踩地面，膝盖・上身基本保持笔直
+let BOXH=9;   // 当前评估的箱子高度(m)。自动尺寸时足够高
 function standPen(g,P,lim){
-    // まっすぐ立った背の高さが箱に収まらないときだけ、ひざ・上体を曲げてよい
+    // 仅在笔直站立的身高装不下时才允许弯曲膝盖・上身
     const standH=2*(P[6].e[1]+P[7].e[1])+Math.hypot(P[1].c[0]-P.hip[0],P[1].c[1]-P.hip[1],P[1].c[2]-P.hip[2])+P[1].r;
     const cr=BOXH<standH+0.02;
     let p=exc(P.feet[0][1],-0.05,0.05)+exc(P.feet[1][1],-0.05,0.05);
@@ -863,7 +863,7 @@ function standPen(g,P,lim){
     p+=exc(torsoTilt(P),0,cr?0.9:lim);
     return p;
 }
-// 四つん這い系（脚を広げる／顔が重ならない）の共通の制約：T＝仰向け、S＝その上で四つん這い
+// 四肢着地类（张开双腿／脸不重叠）的共同约束：T＝仰躺，S＝在其上方四肢着地
 function allFoursPen(gT,gS,PT,PS,mode){
     const aT=PT[0].a, aS=PS[0].a, cT=PT[0].c, cS=PS[0].c;
     const lT=Math.hypot(aT[3],aT[5])||1, lS=Math.hypot(aS[3],aS[5])||1;
@@ -872,22 +872,22 @@ function allFoursPen(gT,gS,PT,PS,mode){
     const cx=cS[0]-cT[0], cz=cS[2]-cT[2], cy=cS[1]-cT[1];
     let p=exc(Math.abs(aT[4]),0,0.3)+exc(aT[7],0.7,1)+exc(Math.abs(aS[4]),0,0.45)+exc(-aS[7],0.55,1)+exc(cy,0.22,0.8);
     const kl=kneePt(PS,6), kr=kneePt(PS,8);
-    p+=exc(kl[1],-9,0.1)+exc(kr[1],-9,0.1);   // ひざは床につく
+    p+=exc(kl[1],-9,0.1)+exc(kr[1],-9,0.1);   // 膝盖接触地面
     const l1=(kl[0]-cT[0])*uz-(kl[2]-cT[2])*ux, l2=(kr[0]-cT[0])*uz-(kr[2]-cT[2])*ux;
     if(mode==='wide'){
-        const m=wT+0.07;   // ひざは胴体の外側（両脇）
+        const m=wT+0.07;   // 膝盖位于躯干外侧（两腋外侧）
         p+=exc(dot,0.6,1)+exc(Math.hypot(cx,cz),0,0.28)
           +exc(l1*l2,-9,-m*m)+exc(Math.abs(l1),m,9)+exc(Math.abs(l2),m,9)
           +exc(gS[10],0.4,9)+exc(gS[14],0.4,9);
-        for(const k of [kl,kr]) p+=exc(Math.abs((k[0]-cT[0])*ux+(k[2]-cT[2])*uz),0,hT);   // ひざは胴体の長さの範囲内
+        for(const k of [kl,kr]) p+=exc(Math.abs((k[0]-cT[0])*ux+(k[2]-cT[2])*uz),0,hT);   // 膝盖要在躯干的长度范围内
     } else {
         const m=wT/2+0.02, hs=PS[1].c, ht=PT[1].c;
         p+=exc(dot,-1,-0.5)+exc(Math.hypot(cx,cz),0,0.4)
           +exc(l1*l2,-9,-m*m)+exc(Math.abs(l1),m,9)+exc(Math.abs(l2),m,9)
           +exc(gS[10],0.05,9)+exc(gS[14],0.05,9);
-        p+=exc(Math.hypot(hs[0]-ht[0],hs[2]-ht[2]),PS[1].r+PT[1].r+0.15,9);          // 顔と顔が重ならない
-        p+=exc(Math.hypot(hs[0]-PT.hip[0],hs[2]-PT.hip[2]),0,0.22);                   // 覆う人の頭が、相手の胴体と脚の境目の上
-        p+=exc(Math.hypot(ht[0]-PS.hip[0],ht[2]-PS.hip[2]),0,0.22);                   // 相手の頭が、覆う人の胴体と脚の境目の下
+        p+=exc(Math.hypot(hs[0]-ht[0],hs[2]-ht[2]),PS[1].r+PT[1].r+0.15,9);          // 脸与脸不重叠
+        p+=exc(Math.hypot(hs[0]-PT.hip[0],hs[2]-PT.hip[2]),0,0.22);                   // 覆盖者的头位于对方躯干与腿交界处的上方
+        p+=exc(Math.hypot(ht[0]-PS.hip[0],ht[2]-PS.hip[2]),0,0.22);                   // 对方的头位于覆盖者躯干与腿交界处的下方
     }
     return p;
 }
@@ -895,28 +895,28 @@ function famPen(fp,gA,gB,PA,PB){
     const t=fp.top;
     const gT=t?gB:gA, gS=t?gA:gB, PT=t?PB:PA, PS=t?PA:PB;
     const fT=pFwd(gT), fS=pFwd(gS);
-    const ang=Math.acos(clampN(fT[0]*fS[0]+fT[1]*fS[1],-1,1)); // 向きの差（0＝同じ向き、π＝向かい合い）
+    const ang=Math.acos(clampN(fT[0]*fS[0]+fT[1]*fS[1],-1,1)); // 朝向之差（0＝同向，π＝面对面）
     const rx=gT[0]-gS[0], rz=gT[2]-gS[2], ry=gT[1]-gS[1];
-    const fw=rx*fS[0]+rz*fS[1];                 // 土台の人の前方へのずれ
-    const lat=Math.abs(rx*fS[1]-rz*fS[0]);      // 左右のずれ
+    const fw=rx*fS[0]+rz*fS[1];                 // 相对支撑者前方的偏移
+    const lat=Math.abs(rx*fS[1]-rz*fS[0]);      // 左右偏移
     let p=0;
     switch(fp.fam){
-    case 'between': // 土台が膝を開き、その間（開いた空間）の床に、同じ向きで座る
+    case 'between': // 支撑者双膝打开，A 以相同朝向坐在中间的地面上
         p+=exc(ang,0,0.35)+exc(fw,0.10,0.36)+exc(lat,0,0.08)+exc(ry,-0.10,0.05)+exc(gS[10],0.35,9)+exc(gS[14],0.35,9)+openKnees(PS,PT,fS,0.03)+sitPen(gT,PT,0.5)+sitPen(gS,PS,0.5);
         break;
-    case 'laplap': // 土台の太ももの上に、同じ向きで座る
+    case 'laplap': // 以相同朝向坐在支撑者的大腿上
         p+=exc(ang,0,0.35)+exc(fw,0.08,0.38)+exc(lat,0,0.10)+exc(ry,0.08,0.35)+sitPen(gT,PT,0.55)+sitPen(gS,PS,0.5);
         break;
-    case 'betweenF': // 土台が膝を開き、その間（開いた空間）の床に、向かい合って座る
+    case 'betweenF': // 支撑者双膝打开，对着脸坐在中间的地面上
         p+=exc(Math.PI-ang,0,0.35)+exc(fw,0.20,0.60)+exc(lat,0,0.08)+exc(ry,-0.10,0.05)+exc(gS[10],0.3,9)+exc(gS[14],0.3,9)+exc(gS[1],0,0.12)+exc(gT[1],0,0.15)+openKnees(PS,PT,fS,0.02)+sitPen(gT,PT,0.5)+sitPen(gS,PS,0.5);
         break;
-    case 'laplapF': // 太ももの上で向かい合う
+    case 'laplapF': // 在大腿上相对而坐
         p+=exc(Math.PI-ang,0,0.35)+exc(fw,0.10,0.40)+exc(lat,0,0.10)+exc(ry,0.08,0.35)+exc(gS[1],0,0.12)+sitPen(gT,PT,0.6)+sitPen(gS,PS,0.5);
         break;
-    case 'facingKnees': // どちらも床で体操座り（ひざを立てる）をして向かい合う
+    case 'facingKnees': // 两人都在地上盘腿坐（屈膝）相对
         p+=exc(Math.PI-ang,0,0.35)+exc(fw,0.40,0.85)+exc(lat,0,0.20)+exc(Math.abs(ry),0,0.08)+exc(gS[1],0,0.15)+exc(gT[1],0,0.15)+kneesUp(gT)+kneesUp(gS)+sitPen(gT,PT,0.5)+sitPen(gS,PS,0.5);
         break;
-    case 'facingWrap': { // 相手の太ももの上に跨り、脚を開いて胴体を左右から挟むように向かい合う
+    case 'facingWrap': { // 跨坐在对方大腿上，双腿张开从左右夹住躯干般相对
         const ph=PS.hip, hw=PS[0].e[0], gp=hw+0.03;
         p+=exc(Math.PI-ang,0,0.35)+exc(fw,0.0,0.20)+exc(lat,0,0.10)+exc(ry,0.06,0.35)+exc(gS[1],0,0.12)
           +exc(gT[10],0.5,9)+exc(gT[14],0.5,9)+exc(gT[12],0.5,9)+exc(gT[16],0.5,9)+sitPen(gT,PT,0.6)+sitPen(gS,PS,0.5);
@@ -924,10 +924,10 @@ function famPen(fp,gA,gB,PA,PB){
             const c=PT[k].c, dx=c[0]-ph[0], dz=c[2]-ph[2];
             p+=exc(Math.abs(dx*fS[1]-dz*fS[0]),hw+0.04,9)+exc(dx*fS[0]+dz*fS[1],-9,0.1);
         }
-        // 左右の脚が、相手の胴体の「両側」に分かれていること（片側に寄らない）
+        // 左右两条腿要分在对方躯干的“两侧”（不能偏向一侧）
         const l6=latOf(ph,fS,PT[6].c), l8=latOf(ph,fS,PT[8].c);
         p+=exc(l6*l8,-9,-gp*gp);
-        // ひざ・すねも胴体の外側にあり、相手の腰より後ろへ回り込む
+        // 膝盖・小腿也位于躯干外侧，并绕到对方腰部后方
         for(const k of [7,9]){
             p+=exc(Math.abs(latOf(ph,fS,PT[k].c)),hw+0.02,9);
         }
@@ -939,7 +939,7 @@ function famPen(fp,gA,gB,PA,PB){
             p+=exc(dx*fS[0]+dz*fS[1],-9,0.08);
         }
         break; }
-    case 'overAllFours': { // T＝仰向けに寝る人／S＝その上に、手と膝を床について四つん這いで覆いかぶさる人（頭は同じ側・顔は向かい合う）
+    case 'overAllFours': { // T＝仰躺的人／S＝在其上方、手与膝撑地的四肢着地俯身覆盖者（头在同一侧・脸相对）
         const aT=PT[0].a, aS=PS[0].a, cT=PT[0].c, cS=PS[0].c;
         const lT=Math.hypot(aT[3],aT[5])||1, lS=Math.hypot(aS[3],aS[5])||1;
         const dot=(aT[3]*aS[3]+aT[5]*aS[5])/(lT*lS);
@@ -947,14 +947,14 @@ function famPen(fp,gA,gB,PA,PB){
         const cx=cS[0]-cT[0], cz=cS[2]-cT[2], cy=cS[1]-cT[1];
         p+=exc(Math.abs(aT[4]),0,0.3)+exc(aT[7],0.7,1)+exc(Math.abs(aS[4]),0,0.45)+exc(-aS[7],0.55,1)+exc(dot,0.6,1)
           +exc(cy,0.22,0.8)+exc(Math.hypot(cx,cz),0,0.28);
-        // 膝は床につき、仰向けの人の腰を左右からまたぐ
+        // 膝盖撑地，从左右跨过仰躺者的腰部
         const kl=kneePt(PS,6), kr=kneePt(PS,8);
         p+=exc(kl[1],-9,0.1)+exc(kr[1],-9,0.1);
         const l1=(kl[0]-cT[0])*uz-(kl[2]-cT[2])*ux, l2=(kr[0]-cT[0])*uz-(kr[2]-cT[2])*ux;
         p+=exc(l1*l2,-9,-(wT/2+0.03)*(wT/2+0.03))+exc(Math.abs(l1),wT/2+0.02,9)+exc(Math.abs(l2),wT/2+0.02,9);
         p+=exc(gS[10],0.05,9)+exc(gS[14],0.05,9);
         break; }
-    case 'reverseStack': { // どちらも仰向けで、頭と足を逆向きにして上下に重なって寝る（Tが上）
+    case 'reverseStack': { // 两人都仰躺，头脚方向相反上下叠着躺（T 在上）
         const aT=PT[0].a, aS=PS[0].a, cT=PT[0].c, cS=PS[0].c;
         const lT=Math.hypot(aT[3],aT[5])||1, lS=Math.hypot(aS[3],aS[5])||1;
         const dot=(aT[3]*aS[3]+aT[5]*aS[5])/(lT*lS);
@@ -963,13 +963,13 @@ function famPen(fp,gA,gB,PA,PB){
           +exc(cy,0.08,0.45)+exc(Math.hypot(cx,cz),0,0.3)
           +exc(gT[9],1.0,9)+exc(gT[13],1.0,9)+exc(gT[12],0.8,9)+exc(gT[16],0.8,9);
         break; }
-    case 'overAllFoursWide': // 四つん這い：脚を大きく広げ、ひざを仰向けの人の胴体の両脇につく（頭は同じ側）
+    case 'overAllFoursWide': // 四肢着地：大幅张开双腿，膝盖撑在仰躺者躯干两侧（头在同一侧）
         p+=allFoursPen(gT,gS,PT,PS,'wide');
         break;
-    case 'overAllFoursOff': // 四つん這い：顔と顔が重ならない（覆う人の顔が、相手の胴体と脚の境目の上にくる）
+    case 'overAllFoursOff': // 四肢着地：脸与脸不重叠（覆盖者的脸落在对方躯干与腿交界处上方）
         p+=allFoursPen(gT,gS,PT,PS,'off');
         break;
-    case 'reverseStackWide': { // 逆向きに重なって寝る：上の人が脚を広げ、下の人の胴体を両脚で挟んでまたぐ
+    case 'reverseStackWide': { // 反向叠着躺：上方的人张开双腿，用双腿夹住并跨过下方人的躯干
         const aT=PT[0].a, aS=PS[0].a, cT=PT[0].c, cS=PS[0].c;
         const lT=Math.hypot(aT[3],aT[5])||1, lS=Math.hypot(aS[3],aS[5])||1;
         const dot=(aT[3]*aS[3]+aT[5]*aS[5])/(lT*lS);
@@ -987,25 +987,25 @@ function famPen(fp,gA,gB,PA,PB){
         }
         p+=exc(ls[0]*ls[1],-9,-hw*hw);
         break; }
-    case 'standFace': // 立って向かい合う
+    case 'standFace': // 站立相对
         p+=exc(Math.PI-ang,0,0.3)+exc(fw,0.05,0.45)+exc(lat,0,0.12)+standPen(gT,PT,0.25)+standPen(gS,PS,0.25);
         break;
-    case 'standBack': // 前後に重なって、同じ向きに立つ
+    case 'standBack': // 前后重叠、朝同一方向站立
         p+=exc(ang,0,0.3)+exc(fw,0.05,0.40)+exc(lat,0,0.10)+standPen(gT,PT,0.25)+standPen(gS,PS,0.25);
         break;
-    case 'standSide': // 並んで同じ向きに立つ
+    case 'standSide': // 并排朝同一方向站立
         p+=exc(ang,0,0.35)+exc(Math.abs(fw),0,0.15)+exc(lat,0.15,0.60)+standPen(gT,PT,0.25)+standPen(gS,PS,0.25);
         break;
-    case 'cradle': { // 太ももの上に横向きに座り、上体を相手に預ける
+    case 'cradle': { // 侧坐在大腿上，把上身靠在对方身上
         const hT=PT[1].c, ph=PT.hip;
-        const toward=-((hT[0]-ph[0])*fS[0]+(hT[2]-ph[2])*fS[1]); // 頭が土台の胴の側へ寄っているか
+        const toward=-((hT[0]-ph[0])*fS[0]+(hT[2]-ph[2])*fS[1]); // 头部是否靠近支撑者的躯干侧
         p+=exc(Math.abs(ang-Math.PI/2),0,0.35)+exc(fw,0.06,0.36)+exc(lat,0,0.14)+exc(ry,0.08,0.35)
           +exc(toward,0.04,9)+exc(torsoTilt(PT),0.15,1.0)+sitPen(gS,PS,0.5);
         break; }
-    case 'side': // 並んで同じ向きに座る
+    case 'side': // 并排朝同一方向坐下
         p+=exc(ang,0,0.4)+exc(Math.abs(ry),0,0.07)+exc(Math.abs(fw),0,0.12)+exc(lat,0.10,0.50)+sitPen(gT,PT,0.45)+sitPen(gS,PS,0.45);
         break;
-    case 'lying': { // 寝そべる：Tは横になる／土台は座って受け止めるか、同じく寝る
+    case 'lying': { // 躺卧：T 横躺／支撑者坐着接住，或同样躺下
         const uT=Math.abs(PT[0].a[4]), uS=Math.abs(PS[0].a[4]);
         p+=2*exc(uT,0,0.35)+Math.max(0,Math.min(uS-0.35,0.8-uS))+exc(Math.hypot(rx,rz),0,0.6);
         if(uS>=0.6) p+=sitPen(gS,PS,0.5);
@@ -1014,12 +1014,12 @@ function famPen(fp,gA,gB,PA,PB){
     return p;
 }
 function tilt(P){
-    const a=P[0].a; // 胴体のローカルY軸
-    const c=a[4]; // y成分（1＝直立）
+    const a=P[0].a; // 躯干的局部 Y 轴
+    const c=a[4]; // y 分量（1＝直立）
     return (1-Math.abs(c));
 }
 function gazeExcess(P,Q){
-    // P の頭が Q の頭を見るのに必要な首の回転量（胴体座標）
+    // P 的头看向 Q 的头所需的颈部旋转量（躯干坐标）
     const inv=qInv(P.Rt);
     const hp=P[1].c, tq=Q[1].c;
     const v=qRot(inv,[tq[0]-hp[0],tq[1]-hp[1],tq[2]-hp[2]]);
@@ -1033,7 +1033,7 @@ function gazeExcess(P,Q){
 }
 function comfort(g){
     let c=0;
-    // 関節の可動域の端に近いほどつらい姿勢
+    // 越接近关节活动极限，姿势越勉强
     const soft=(v,lo,hi,m)=>{ if(v>hi-m) c+=(v-(hi-m))/m; if(v<lo+m) c+=((lo+m)-v)/m; };
     soft(g[6],G_LO[6],G_HI[6],0.3);
     soft(g[7],G_LO[7],G_HI[7],0.15); soft(g[8],G_LO[8],G_HI[8],0.25);
@@ -1041,13 +1041,13 @@ function comfort(g){
         soft(g[o],G_LO[o],G_HI[o],0.3); soft(g[o+1],G_LO[o+1],G_HI[o+1],0.2);
         soft(g[o+2],G_LO[o+2],G_HI[o+2],0.3); soft(g[o+3],G_LO[o+3],G_HI[o+3],0.25);
     }
-    // 左右の脚の差が大きすぎない
+    // 左右腿的差异不要过大
     c+=0.15*Math.abs(g[9]-g[13]);
     return c*0.3;
 }
 const DEF_W={viol:120,grav:0.5,contact:3,face:1.2,gaze:0.5,comfort:0.4,tilt:0.35,vol:2.2,fam:8,space:1.2,center:1.0,foot:30};
 
-// ================= 初期姿勢（ポーズの型） =================
+// ================= 初始姿势（姿势模板） ==================
 function sitGene(d,o){
     const g=new Float64Array(GN);
     g[0]=o.x||0; g[1]=(o.y!==undefined)?o.y:d.legT/2+0.01; g[2]=o.z||0; g[3]=o.yaw||0; g[4]=o.pitch||0; g[5]=o.roll||0;
@@ -1058,13 +1058,13 @@ function sitGene(d,o){
     return g;
 }
 const FAMILIES=['between','betweenF','laplap','laplapF','facingKnees','facingWrap','cradle','side','lying','overAllFours','overAllFoursWide','overAllFoursOff','reverseStack','reverseStackWide'];
-const STAND_FAMS=['standFace','standBack','standSide']; // 掃除用ロッカー（立つ）で使うポーズ
-const SYM_FAMS={side:1,facingKnees:1,standFace:1,standSide:1}; // 役割（上／土台）の区別がない型
+const STAND_FAMS=['standFace','standBack','standSide']; // 清洁柜（站立）使用的姿势
+const SYM_FAMS={side:1,facingKnees:1,standFace:1,standSide:1}; // 不区分角色（上方／支撑）的类型
 function familySeeds(dA,dB,fam){
     const out=[]; // [gA,gB]
     const sB=dB.legT/2+0.01, sA=dA.legT/2+0.01;
     if(fam==='between'){
-        // 土台（B側）が膝を開き、その間の床に A が座る
+        // 支撑者（B 侧）双膝打开，A 坐在中间的地面上
         out.push([sitGene(dA,{z:dB.torsoD/2+dA.torsoD/2+0.14,lean:-0.12,legs:{flex:1.45,abd:0.1,knee:0.2}}),
                   sitGene(dB,{lean:0.05,legs:{flex:1.3,abd:0.65,knee:0.3}})]);
         out.push([sitGene(dA,{z:0.3,lean:-0.12,legs:{flex:1.7,abd:0.1,knee:1.9}}),
@@ -1105,7 +1105,7 @@ function familySeeds(dA,dB,fam){
         out.push([sitGene(dA,{x:-0.22,lean:0.2,legs:{flex:1.45,abd:0.1,knee:0.2}}),
                   sitGene(dB,{x:0.22,lean:0.2,legs:{flex:1.45,abd:0.1,knee:0.2}})]);
     } else if(fam==='overAllFours'){
-        // 1人目＝仰向け、2人目＝その上に四つん這い
+        // 第一个人＝仰躺，第二个人＝在其上方四肢着地
         for(const sg of [1,-1]){
             out.push([sitGene(dA,{y:dA.torsoD/2+0.03,yaw:sg>0?0:PI,pitch:-1.45*sg,legs:{flex:0.2,abd:0.05,knee:0.1}}),
                       sitGene(dB,{y:0.42,z:0.05*sg,yaw:sg>0?PI:0,pitch:1.35*sg,legs:{flex:1.45,abd:0.25,knee:1.5}})]);
@@ -1119,7 +1119,7 @@ function familySeeds(dA,dB,fam){
         }
     } else if(fam==='overAllFoursOff'){
         for(const sg of [1,-1]){
-            // 頭と足が逆向き（Aの頭がBの胴体と脚の境目、Bの頭がAの胴体と脚の境目の位置）
+            // 头脚方向相反（A 的头位于 B 躯干与腿交界处，B 的头位于 A 躯干与腿交界处）
             out.push([sitGene(dA,{y:dA.torsoD/2+0.03,yaw:sg>0?0:PI,pitch:-1.45*sg,legs:{flex:0.2,abd:0.05,knee:0.1}}),
                       sitGene(dB,{y:0.42,z:-0.8*sg,yaw:sg>0?0:PI,pitch:1.35,legs:{flex:1.45,abd:0.3,knee:1.5}})]);
         }
@@ -1156,7 +1156,7 @@ function familySeeds(dA,dB,fam){
         out.push([sitGene(dA,{x:0,z:0.05,y:dA.torsoD/2+0.02,yaw:0,pitch:-1.5,legs:{flex:0.3,abd:0.05,knee:0.9}}),
                   sitGene(dB,{x:0,z:0.0,y:dB.torsoD/2+0.2,yaw:0,pitch:-1.5,legs:{flex:0.3,abd:0.05,knee:0.9}})]);
     }
-    if(STAND_FAMS.indexOf(fam)>=0){ // 背が箱に収まらない場合に備え、しゃがんだ見本も用意する
+    if(STAND_FAMS.indexOf(fam)>=0){ // 为防身高装不进箱子，也准备了蹲下的样本
         const n=out.length;
         for(let k=0;k<n;k++){
             const ca=Float64Array.from(out[k][0]), cb=Float64Array.from(out[k][1]);
@@ -1177,7 +1177,7 @@ function recenterPair(gA,gB){
     gA[0]-=cx;gB[0]-=cx;gA[2]-=cz;gB[2]-=cz;
 }
 
-// ================= 探索（焼きなまし） =================
+// ================= 搜索（模拟退火） ==================
 function clampGene(ctx,g){
     for(let i=0;i<GN;i++){ if(i===3) continue; g[i]=clampN(g[i],G_LO[i],G_HI[i]); }
     const b=ctx.box;
@@ -1192,7 +1192,7 @@ function* anneal(ctx,gA,gB,aA,aB,nEval,rnd,T0,T1,useArms,scale0,ramp){
         const fr=it/nEval;
         const T=T0*Math.pow(T1/T0,fr);
         const sc=(scale0||1)*(1-0.85*fr);
-        // 序盤は干渉を軽く扱って配置を大きく動かし、後半で干渉を解消していく
+        // 前期弱化干涉、大幅调整布局，后期再逐步消除干涉
         const vw=ramp?cur.W*(0.15+0.85*Math.min(1,fr/0.55)):cur.W;
         const nA=Float64Array.from(cA),nB=Float64Array.from(cB);
         const r=rnd();
@@ -1210,7 +1210,7 @@ function* anneal(ctx,gA,gB,aA,aB,nEval,rnd,T0,T1,useArms,scale0,ramp){
         } else if(r<0.78){
             const t=rnd()<0.5?nA:nB; t[3]+=gauss(rnd)*0.3*sc;
         } else if(r<0.90){
-            const t=rnd()<0.5?nA:nB; const j=[0,1,3][Math.floor(rnd()*3)]; // 両脚そろえて動かす
+            const t=rnd()<0.5?nA:nB; const j=[0,1,3][Math.floor(rnd()*3)]; // 双腿一起移动
             const o=[9,10,11,12][j===3?3:j]; const dv=gauss(rnd)*G_SIG[o]*sc;
             t[9+j]+=dv; t[13+j]+=dv;
         } else {
@@ -1227,7 +1227,7 @@ function* anneal(ctx,gA,gB,aA,aB,nEval,rnd,T0,T1,useArms,scale0,ramp){
     }
     return {gA:bestA,gB:bestB,info:bestInfo};
 }
-// 真下へ落として接地させる（めり込みが増えない範囲で最大限）
+// 让其垂直落下接地（在不增加陷入的前提下尽量贴合）
 function settleDown(ctx,gA,aA,gB,aB,who,useArms){
     const base=evalPose(ctx,gA,aA,gB,aB,useArms);
     const g=who===0?gA:gB;
@@ -1239,9 +1239,9 @@ function settleDown(ctx,gA,aA,gB,aB,who,useArms){
     g[1]=Math.max(0,y0-lo);
 }
 
-// ================= 腕の探索 =================
+// ================= 手臂的搜索 ==================
 function armCost(ctx,who,P,Q,i,W){
-    // who の腕i（0左/1右）の評価：他人・自分・箱との干渉＋ハグ度
+    // 评估 who 的第 i 条手臂（0 左/1 右）：与他人・自己・箱子的干涉＋拥抱程度
     const a0=2+i*2,a1=3+i*2;
     let pen=0;
     for(let k=0;k<10;k++){ pen+=pairDepth(P[a0],Q[k]); pen+=pairDepth(P[a1],Q[k]); }
@@ -1259,14 +1259,14 @@ function armCost(ctx,who,P,Q,i,W){
     for(let k=6;k<10;k++){const v=pointObbDist(H,P[k]); if(v<dS) dS=v;}
     const dT=pointObbDist(H,My);
     let dQ=1e9;
-    for(let k=6;k<10;k++){const v=pointObbDist(H,Q[k]); if(v<dQ) dQ=v;} // 相手の脚（ひざ・ももに手を置く）
+    for(let k=6;k<10;k++){const v=pointObbDist(H,Q[k]); if(v<dQ) dQ=v;} // 对方的腿部（把手放在膝盖・大腿上）
     let att=Math.min(dP,dS+0.05,dT+0.08,dQ+0.04);
-    // 相手の向こう側へ回り込む（抱きつき）ボーナス
+    // 绕到对方另一侧（搂抱）的加分项
     let bonus=0;
     const dx=Pt.c[0]-My.c[0],dy=Pt.c[1]-My.c[1],dz=Pt.c[2]-My.c[2]; const dl=Math.hypot(dx,dy,dz)||1;
     const behind=((H[0]-Pt.c[0])*dx+(H[1]-Pt.c[1])*dy+(H[2]-Pt.c[2])*dz)/dl;
     if(behind>0.01&&dP<0.05) bonus=-0.25;
-    // 四つん這いの人は、手を床につく
+    // 四肢着地的人要把手撑在地面上
     const floorPull=(ctx.fp&&ALLFOURS_FAMS[ctx.fp.fam]&&who===(ctx.fp.top?0:1))?8*Math.max(0,H[1]):0;
     return W.viol*pen+5*att+bonus+floorPull;
 }
@@ -1315,13 +1315,13 @@ function* solveArms(ctx,gA,gB,aA,aB,rnd,nRand,nHill){
     }
 }
 
-// ================= 全体の流れ =================
+// ================= 整体流程 ==================
 function makeCtx(o){
     const dA=makeDims(o.heightA,o.genderA), dB=makeDims(o.heightB,o.genderB);
     return {dA,dB,box:o.box,wA:bodyVolWeights(dA),wB:bodyVolWeights(dB),W:Object.assign({},DEF_W,o.weights||{})};
 }
 function famRoleSeeds(ctx,fam){
-    // どちらが上（前）に座るか両方の組み合わせを用意する
+    // 准备“谁坐上方（前方）”的两种组合
     const out=[];
     for(const s of familySeeds(ctx.dA,ctx.dB,fam)) out.push({gA:s[0],gB:s[1],top:0});
     if(!SYM_FAMS[fam]){
@@ -1334,19 +1334,19 @@ function* solveGen(o){
     const rnd=mulberry32((o.seed||1)*2654435761>>>0);
     const aA=Float64Array.from(ARM_NEUTRAL), aB=Float64Array.from(ARM_NEUTRAL);
     const fams=(o.family&&o.family!=='auto')?[o.family]:(o.box.locker?STAND_FAMS:FAMILIES);
-    // 背の高い人が低い人の上に乗るのは不自然なので、少しだけ不利にする
+    // 高个子压在矮个子身上不自然，因此略微扣分
     const roleBias=(c)=>{
         if(SYM_FAMS[c.fam]) return 0;
         const hT=c.top?ctx.dB.h:ctx.dA.h, hS=c.top?ctx.dA.h:ctx.dB.h;
         return 20*Math.max(0,hT/hS-0.98)+(c.top?0.02:0);
     };
     const avoidPen=(c)=>((o.avoidFam&&c.fam===o.avoidFam)?0.8:0)+roleBias(c);
-    // 1) 型×役割×向きの初期姿勢を全部採点
+    // 1) 对模板×角色×朝向的初始姿势全部打分
     let cands=[];
     for(const fam of fams){
         const seeds=famRoleSeeds(ctx,fam);
         for(let si=0;si<seeds.length;si++){
-            // 型の見本そのものと、関節・位置を少しずつ揺らしたもの（良い出発点を拾うため）
+            // 模板原型，以及略微抖动关节・位置的变体（用于取得好的起点）
             for(let jt=0;jt<(o.nJit||8);jt++){
                 let bA=seeds[si].gA, bB=seeds[si].gB;
                 if(jt>0){
@@ -1354,7 +1354,7 @@ function* solveGen(o){
                     for(const t of [bA,bB]){
                         for(let i=4;i<GN;i++) t[i]+=gauss(rnd)*G_SIG[i]*0.8;
                         t[0]+=gauss(rnd)*0.04; t[2]+=gauss(rnd)*0.04;
-                        t[13]=t[9]; t[14]=t[10]; t[15]=t[11]; t[16]=t[12]; // 左右そろえた状態から始める
+                        t[13]=t[9]; t[14]=t[10]; t[15]=t[11]; t[16]=t[12]; // 从左右对齐的状态开始
                     }
                 }
                 for(let k=0;k<4;k++){
@@ -1371,26 +1371,26 @@ function* solveGen(o){
         yield 0;
     }
     cands.sort((p,q)=>(p.J+avoidPen(p))-(q.J+avoidPen(q)));
-    // 型×役割ごとに最良の出発点を1つずつ（どの役割でも探索できるように）→足りなければ全体の上位で補う
+    // 按模板×角色各取一个最佳起点（保证任何角色都能搜索）→ 不足时用总排名靠前的补齐
     const picked=[]; const seen={};
     for(const c of cands){ const key=c.fam+c.top; if(!seen[key]){seen[key]=1;picked.push(c);} }
     if(!o.scanOnly) for(const c of cands){ if(picked.length>=(o.nStart||6)) break; if(picked.indexOf(c)<0) picked.push(c); }
     picked.sort((p,q)=>(p.J+avoidPen(p))-(q.J+avoidPen(q)));
     const starts=picked;
-    // 2) それぞれを焼きなまし
+    // 2) 对各自进行模拟退火
     const results=[];
     const nEval=o.evals||1400;
     for(const s of starts){
         setFp(ctx,{fam:s.fam,top:s.top});
         let r=yield* anneal(ctx,s.gA,s.gB,aA,aB,nEval,rnd,0.5,0.02,false,1,true);
-        if(r.info.fpen>0.03){ // 型を守れていなければ、もう一度その姿勢から探し直す
+        if(r.info.fpen>0.03){ // 若未能保持模板，就从该姿势重新再搜一次
             const r2=yield* anneal(ctx,r.gA,r.gB,aA,aB,nEval,rnd,0.35,0.02,false,0.8,true);
             if(r2.info.J<r.info.J) r=r2;
         }
         results.push({fam:s.fam,top:s.top,gA:r.gA,gB:r.gB,J:r.info.J,viol:r.info.viol,pv:r.info.pv,fpen:r.info.fpen});
     }
     if(o.scanOnly){
-        // 各ポーズが「干渉なし・型を守れる」姿勢を作れるかだけを調べる（成立しなかった型は、もう一度じっくり探す）
+        // 仅检查各姿势能否做出“无干涉・符合模板”的姿态（不成立的模板会再仔细搜索一次）
         const scan={};
         for(const f of fams) scan[f]={ok:false,pv:9,fpen:9};
         const isOk=(pv,fp)=>pv<=0.008&&fp<=0.15;
@@ -1400,10 +1400,10 @@ function* solveGen(o){
         };
         for(const r of results) note(r);
         for(const r of results){
-            for(let retry=0;retry<7&&!scan[r.fam].ok;retry++){ // 成立しなかった型は、探し直しを最大7回
+            for(let retry=0;retry<7&&!scan[r.fam].ok;retry++){ // 不成立的模板最多重新搜索 7 次
                 setFp(ctx,{fam:r.fam,top:r.top});
                 let sA=r.gA, sB=r.gB;
-                if(retry>=3){ // 同じ出発点で見つからなければ、姿勢を揺らした別の出発点から探し直す
+                if(retry>=3){ // 若在同一起点找不到，则从抖动姿势后的其它起点重新搜索
                     const sd=famRoleSeeds(ctx,r.fam).filter(x=>x.top===r.top), pk=sd[retry%sd.length];
                     sA=Float64Array.from(pk.gA); sB=Float64Array.from(pk.gB);
                     for(const t of [sA,sB]){
@@ -1420,7 +1420,7 @@ function* solveGen(o){
         return {scan};
     }
     results.sort((p,q)=>(p.J+avoidPen(p))-(q.J+avoidPen(q)));
-    // 3) 上位を、接地→腕→仕上げ
+    // 3) 对靠前的解依次做：接地→手臂→收尾
     let final=null;
     const nTop=Math.min(o.nTop||3,results.length);
     for(let t=0;t<nTop;t++){
@@ -1430,7 +1430,7 @@ function* solveGen(o){
         const a1=Float64Array.from(ARM_NEUTRAL),b1=Float64Array.from(ARM_NEUTRAL);
         settleDown(ctx,gA,a1,gB,b1,0,false); settleDown(ctx,gA,a1,gB,b1,1,false);
         yield* solveArms(ctx,gA,gB,a1,b1,rnd,o.armRand||1400,o.armHill||300);
-        // 仕上げ：腕込みで微調整
+        // 收尾：连同手臂一起微调
         const rr=yield* anneal(ctx,gA,gB,a1,b1,o.polish||500,rnd,0.08,0.01,true,0.35);
         settleDown(ctx,rr.gA,a1,rr.gB,b1,0,true); settleDown(ctx,rr.gA,a1,rr.gB,b1,1,true);
         const e=evalPose(ctx,rr.gA,a1,rr.gB,b1,true);
@@ -1438,7 +1438,7 @@ function* solveGen(o){
         if(!final||cand.J+avoidPen(cand)<final.J+avoidPen(final)) final=cand;
         yield 0;
     }
-    // 4) 箱の大きさ（自動なら、ぴったり＋余白）
+    // 4) 箱子尺寸（自动时为刚好贴合＋留白）
     const e=final.info;
     let box;
     if(ctx.box.auto){
@@ -1447,7 +1447,7 @@ function* solveGen(o){
         final.gA[0]-=cx;final.gB[0]-=cx;final.gA[2]-=cz;final.gB[2]-=cz;
         box={W:(e.bb.x1-e.bb.x0)+pad*2,D:(e.bb.z1-e.bb.z0)+pad*2,H:e.bb.y1+pad};
     } else {
-        // 手動サイズ：二人まとめて箱の中央へ（平行移動だけなので、めり込みは変わらない）
+        // 手动尺寸：两人整体移到箱子中央（只是平移，陷入量不变）
         const cx=(e.bb.x0+e.bb.x1)/2, cz=(e.bb.z0+e.bb.z1)/2;
         final.gA[0]-=cx;final.gB[0]-=cx;final.gA[2]-=cz;final.gB[2]-=cz;
         box={W:ctx.box.W,D:ctx.box.D,H:ctx.box.H};
@@ -1458,8 +1458,8 @@ function* solveGen(o){
 }
 
 
-// ===== ポーズ用ヘルパー（three.js側：ソルバーが出した角度を人形に反映する） =====
-// 腕・脚の棒を2分割して関節(肘・膝)を作る
+// ===== 姿势辅助函数（three.js 侧：把求解器算出的角度反映到人偶上） =====
+// 把手臂・腿部的棍状物一分为二，做出关节（肘・膝）
 function addJoint(anchor) {
     const mesh = anchor.children[0];
     const half = mesh.geometry.parameters.height / 2;
@@ -1476,21 +1476,21 @@ function addJoint(anchor) {
     anchor.half = half;
 }
 
-// 真下向きの棒を dir の向きへ回す（回転順 XYZ）
+// 把朝正下方的棍子转向 dir 的方向（旋转顺序 XYZ）
 function aim(node, dir) {
     const d = dir.clone().normalize();
     node.rotation.z = Math.asin(Math.max(-1, Math.min(1, d.x)));
     node.rotation.x = Math.atan2(-d.z, -d.y);
 }
 
-// dirUpper/dirLower は anchor の親座標系での向き
+// dirUpper/dirLower 为 anchor 父级坐标系中的朝向
 function aimLimb(anchor, dirUpper, dirLower) {
     aim(anchor, dirUpper);
     const inv = anchor.quaternion.clone().invert();
     aim(anchor.joint, dirLower.clone().applyQuaternion(inv));
 }
 
-// 腰を軸に上半身(頭・首・胴・腕)を自由に曲げられるようにする（名前タグは含めない）
+// 让上半身（头・颈・躯干・手臂）能以腰为轴自由弯曲（不含名字标签）
 function setupPivot(p) {
     const pivot = new THREE.Group();
     pivot.position.y = p.userData.legH;
@@ -1501,7 +1501,7 @@ function setupPivot(p) {
     p.headParts.rotation.order = 'YXZ';
 }
 
-// ソルバーの結果（体の角度）を人形に反映する
+// 把求解器的结果（身体角度）反映到人偶上
 function applyPose(p, g, arm, ana) {
     const Rr = rootQ(g), Rs = spineQ(g);
     p.quaternion.set(Rr[0], Rr[1], Rr[2], Rr[3]);
@@ -1516,7 +1516,7 @@ function applyPose(p, g, arm, ana) {
     }
 }
 
-// 首の向き：相手の顔を見る。ただし首が回る範囲（左右約70°・下約50°・上約45°）まで
+// 颈部朝向：看向对方的脸。但限于颈部可转动范围（左右约 70°・下约 50°・上约 45°）
 function aimHead(p, targetWorld) {
     const head = p.headParts;
     p.pivot.updateWorldMatrix(true, false);
@@ -1527,7 +1527,7 @@ function aimHead(p, targetWorld) {
     head.rotation.set(-pitch, yaw, 0, 'YXZ');
 }
 
-// 透明な箱を作る（一人称視点のときは、壁・床・フタを不透明にして外が透けないようにする）
+// 创建透明箱子（第一人称视角时把墙壁・地面・盖子设为不透明，避免透视到外面）
 function buildBox(b, lid) {
     while (boxGroup.children.length) {
         const c = boxGroup.children[0];
@@ -1538,7 +1538,7 @@ function buildBox(b, lid) {
     const opaque = currentView !== '3rd';
     const W = b.W, D = b.D, H = b.H;
     const locker = !!b.locker;
-    // 通常の箱は水色、掃除用ロッカーはグレーがかったミントグリーン
+    // 普通箱子为浅蓝色，清洁柜为偏灰的薄荷绿
     const pal = locker
         ? { base: 0x8fb5a0, floor: 0xa9c9b8, front: 0xd3e6db, side: 0xc2dccd, lid: 0xe2f0e8, edge: 0x4f8a6c }
         : { base: 0x8fc1ee, floor: 0xa9cdee, front: 0xd3e6f8, side: 0xc2daf3, lid: 0xe2effb, edge: 0x4a90d9 };
@@ -1562,7 +1562,7 @@ function buildBox(b, lid) {
     boxGroup.add(edges);
 }
 
-// 人形の準備（上半身を曲げられる軸と、肘・膝の関節を作る）
+// 准备人偶（做出可弯曲上半身的轴和肘・膝关节）
 function preparePerson(p) {
     setupPivot(p);
     p.arms.forEach(arm => addJoint(arm));
@@ -1581,14 +1581,14 @@ function readBoxSettings() {
     };
 }
 
-// 解を人形と箱に反映する
+// 把解应用到人偶与箱子上
 function applyResult(res) {
     applyPose(personA, res.gA, res.aA, res.ana);
     applyPose(personB, res.gB, res.aB, res.ana);
     currentBox = res.box;
 }
 
-// 解が出るまでの仮ポーズ
+// 解算出之前的临时姿势
 function applyProvisional(hA, gA, hB, gB, bs) {
     if (lastResult) { applyResult(lastResult); return; }
     const dA = makeDims(hA, gA), dB = makeDims(hB, gB);
@@ -1611,7 +1611,7 @@ function startSolve(key, o) {
     }, 220);
 }
 
-// 各ポーズがこの身長・箱で成り立つかを、メインの計算が終わってから裏で調べる
+// 在主计算结束后，于后台调查各姿势在此身高・箱子下是否成立
 function stepScan() {
     if (!scanRun && scanParams && !solving) {
         scanRun = { gen: solveGen(Object.assign({}, scanParams, { scanOnly: true, family: 'auto', evals: 900, seed: 1 })), key: scanParams.key };
@@ -1638,7 +1638,7 @@ function stepScan() {
     }
 }
 
-// ポーズの選択肢を、箱のタイプ（箱／ロッカー）と「この身長で成り立つか」に合わせて出し分ける
+// 根据箱子类型（箱子／储物柜）以及“此身高是否成立”来分别展示姿势选项
 function refreshPoseOptions(scan) {
     const sel = document.getElementById('poseFamily');
     const kind = document.getElementById('boxTypeLocker').checked ? 'locker' : 'box';
@@ -1651,17 +1651,17 @@ function refreshPoseOptions(scan) {
             if (sel.value === opt.value) lost = true;
             continue;
         }
-        const shown = diceAuto && lastResult && lastResult.fam === opt.value;   // 🎲で出たポーズは残す
+        const shown = diceAuto && lastResult && lastResult.fam === opt.value;   // 保留 🎲 抽出来的姿势
         const ok = shown || !scan || !scan[opt.value] || scan[opt.value].ok;
         opt.disabled = !ok;
         opt.hidden = !ok;
-        opt.textContent = FAMILY_NAMES[opt.value] + (ok ? '' : '（この身長では不可）');
+        opt.textContent = FAMILY_NAMES[opt.value] + (ok ? '' : '（这个身高不可行）');
         if (!ok && sel.value === opt.value) lost = true;
     }
     return lost;
 }
 
-// 成り立たないポーズは選択肢から外す（今選んでいるものが外れたら「おまかせ」に戻す）
+// 移除不成立的姿势选项（若当前选中项被移除，则回到“自动推荐”）
 function applyFamilyAvailability(scan) {
     lastScan = scan;
     const lost = refreshPoseOptions(scan);
@@ -1700,16 +1700,16 @@ function stepSolver() {
 
 function reroll() {
     variantSeed++;
-    diceAuto = true;        // 選んでいるポーズに関係なく、別のポーズを全体から探す
-    rerollPending = true;   // 今のポーズとは違う型を選びやすくするのは🎲のときだけ
+    diceAuto = true;        // 无视当前选中的姿势，从全部姿势中另找一个
+    rerollPending = true;   // 只有 🎲 时才更容易选中与当前不同的模板
     updateScene();
 }
 
-// 箱のタイプ（箱／掃除用ロッカー）を切り替えたとき：サイズの初期値・カメラ距離・ポーズ候補を切り替える
+// 切换箱子类型（箱子／清洁柜）时：切换尺寸初始值・相机距离・姿势候选
 function onBoxTypeChange() {
     const locker = document.getElementById('boxTypeLocker').checked;
     const from = locker ? BOX_DEFAULT : LOCKER_DEFAULT, to = locker ? LOCKER_DEFAULT : BOX_DEFAULT;
-    // 手動サイズが前のタイプの初期値のままなら、新しいタイプの初期値に差し替える（自分で変えた値は残す）
+    // 若手动尺寸仍是旧类型的初始值，则替换为新类型的初始值（用户自行修改的值会保留）
     const ids = [['boxW', 'W'], ['boxD', 'D'], ['boxH', 'H']];
     const untouched = ids.every(([id, k]) => parseFloat(document.getElementById(id).value) === from[k]);
     if (untouched) ids.forEach(([id, k]) => { document.getElementById(id).value = to[k]; });
@@ -1720,13 +1720,13 @@ function onBoxTypeChange() {
     updateScene();
 }
 
-// ポーズ欄を手で選んだとき：その型に固定して探し直す
+// 手动选择姿势栏时：固定为该模板并重新搜索
 function onPoseSelect() {
     diceAuto = false;
     updateScene();
 }
 
-// 🎲で見つかったポーズを、ポーズ欄に反映する
+// 把 🎲 找到的姿势反映到姿势栏上
 function syncPoseSelect() {
     if (!diceAuto || !lastResult) return;
     const sel = document.getElementById('poseFamily');
@@ -1745,7 +1745,7 @@ function renderInfo() {
     const hB = parseFloat(document.getElementById('heightB').value) || 171.5;
     let pose = '', size = '';
     if (solving) {
-        pose = '🔄 探索中…';
+        pose = '🔄 搜索中…';
     } else if (lastResult) {
         pose = FAMILY_NAMES[lastResult.fam] || '';
     }
@@ -1754,15 +1754,15 @@ function renderInfo() {
     }
     document.getElementById('info').innerHTML = `
         <div class="info-row">
-            <span class="info-label">📏 身長差</span>
+            <span class="info-label">📏 身高差</span>
             <span class="info-value">${Math.abs(hA-hB).toFixed(1)}<span class="unit">cm</span></span>
         </div>
         <div class="info-row">
-            <span class="info-label">${readBoxSettings().locker ? '🧹 ロッカーの内寸' : '📦 箱の内寸'}</span>
+            <span class="info-label">${readBoxSettings().locker ? '🧹 储物柜内尺寸' : '📦 箱子内尺寸'}</span>
             <span class="info-value" style="font-size:15px;">${size || '-'}<span class="unit">cm</span></span>
         </div>
         <div class="info-row">
-            <span class="info-label">🧍 ポーズ</span>
+            <span class="info-label">🧍 姿势</span>
             <span class="info-value" style="font-size:13px;">${pose || '-'}</span>
         </div>
     `;
@@ -1775,7 +1775,7 @@ function updateScene() {
     const gB = document.getElementById('genderB').value;
     const bs = readBoxSettings();
     document.getElementById('boxManual').style.display = bs.auto ? 'none' : 'flex';
-    // 箱のタイプに合わないポーズが選ばれていたら「おまかせ」に戻し、選択肢を出し分ける
+    // 若选中的姿势不适合箱子类型，则回到“自动推荐”，并分别展示选项
     if (refreshPoseOptions(lastScan)) { diceAuto = false; document.getElementById('poseFamily').value = 'auto'; bs.family = 'auto'; }
 
     [personA, personB].forEach(p => { if (p) { walkGroup.remove(p); walkGroup.remove(p.nameTag); } });
@@ -1783,14 +1783,14 @@ function updateScene() {
     personA = createMannequin(document.getElementById('colorA').value, hA, gA, document.getElementById('nameA').value, 'A', {});
     personB = createMannequin(document.getElementById('colorB').value, hB, gB, document.getElementById('nameB').value, 'B', {});
     
-    // 名前タグは人形から切り離して、頭の真上に表示する
+    // 把名字标签从人偶上分离，显示在头顶正上方
     personA.remove(personA.nameTag); personB.remove(personB.nameTag);
     preparePerson(personA);
     preparePerson(personB);
 
     walkGroup.add(personA, personB, personA.nameTag, personB.nameTag);
 
-    // 身長・性別・箱の条件が同じなら前回の解を使い、変わったときだけ最適化し直す
+    // 身高・性别・箱子条件相同则复用上次的解，仅在变化时重新优化
     const key = [hA, gA, hB, gB, bs.auto, bs.auto ? 0 : bs.W, bs.auto ? 0 : bs.D, bs.auto ? 0 : bs.H, bs.locker, bs.family, variantSeed].join('|');
     if (lastResult && key === lastKey) {
         applyResult(lastResult);
@@ -1809,7 +1809,7 @@ function updateScene() {
     rerollPending = false;
     buildBox(currentBox, bs.lid);
 
-    // 身長・性別・箱が変わったら、成り立つポーズを調べ直す
+    // 身高・性别・箱子变化时，重新调查可行的姿势
     const scanKey = [hA, gA, hB, gB, bs.auto, bs.auto ? 0 : bs.W, bs.auto ? 0 : bs.D, bs.auto ? 0 : bs.H, bs.locker].join('|');
     if (scanKey !== scanDoneKey && !(scanParams && scanParams.key === scanKey)) {
         scanRun = null;
@@ -1825,7 +1825,7 @@ function updateScene() {
 
     if(currentView !== '3rd') {
         const myName = (currentView === 'A') ? nA : nB;
-        document.getElementById('view-label').innerText = `${myName} の視点`;
+        document.getElementById('view-label').innerText = `${myName} 的视角`;
         if(currentView === 'A') { personA.headParts.visible = false; personA.nameTag.visible = false; }
         if(currentView === 'B') { personB.headParts.visible = false; personB.nameTag.visible = false; }
     }
@@ -1839,13 +1839,13 @@ function animate() {
     stepSolver();
     walkGroup.updateMatrixWorld(true);
 
-    // お互いの顔を見つめる向き（首が回る範囲まで）
+    // 互相凝视对方的朝向（在颈部可转动范围内）
     const eyeAWorld = personA.headParts.getWorldPosition(new THREE.Vector3());
     const eyeBWorld = personB.headParts.getWorldPosition(new THREE.Vector3());
     aimHead(personB, eyeAWorld);
     aimHead(personA, eyeBWorld);
 
-    // 名前タグは頭の真上に
+    // 名字标签放在头顶正上方
     [[personA, eyeAWorld], [personB, eyeBWorld]].forEach(([p, e]) => {
         p.nameTag.position.set(e.x, e.y + p.userData.height * 0.065 + 0.3, e.z);
     });
@@ -1853,7 +1853,7 @@ function animate() {
     const centerPos = new THREE.Vector3(0, currentBox.H * 0.5, 0);
 
     if (currentView === '3rd') {
-        // 注視点のまわりを球面に沿って回る（真上・真下まで行ける。向きは回転角で直接指定するので、ちょうど真上/真下でも破綻しない）
+        // 沿球面绕注视点旋转（可到正上方・正下方。朝向由旋转角直接指定，因此正上/正下也不会崩坏）
         camera.up.set(0, 1, 0);
         const horiz = Math.cos(rotation.x) * camDist;
         camera.position.set(
@@ -1867,7 +1867,7 @@ function animate() {
         camera.up.set(0, 1, 0);
         const other = (currentView === 'A' ? personB : personA);
         self.headParts.getWorldPosition(camera.position);
-        // 箱詰めでも、おたがいの顔を見つめる向きが正面
+        // 装箱时，彼此凝视对方脸的朝向即为正面
         camera.lookAt(other.headParts.getWorldPosition(new THREE.Vector3()));
 
         camera.rotateY(rotation.y);
@@ -1881,7 +1881,7 @@ function setupControls() {
     const c = document.getElementById('canvas-container');
     const move = (dx, dy) => {
         rotation.y -= dx * 0.005; rotation.x -= dy * 0.005;
-        // 三人称は真上(+90°)〜真下(-90°)まで
+        // 第三人称为正上方(+90°)～正下方(-90°)
         if (currentView === '3rd') rotation.x = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, rotation.x));
     };
     c.addEventListener('mousedown', () => isDragging = true);
@@ -1941,14 +1941,14 @@ function switchView() {
     const nB = document.getElementById('nameB').value||'B';
     
     if (currentView === '3rd') {
-        document.getElementById('view-label').innerText = '三人称視点';
+        document.getElementById('view-label').innerText = '第三人称视角';
     } else {
         const myName = (currentView === 'A') ? nA : nB;
-        document.getElementById('view-label').innerText = `${myName} の視点`;
+        document.getElementById('view-label').innerText = `${myName} 的视角`;
     }
 
     document.getElementById('crosshair').style.display = currentView === '3rd' ? 'none' : 'block';
-    buildBox(currentBox, readBoxSettings().lid);   // 一人称では壁を不透明に／三人称では透明に戻す
+    buildBox(currentBox, readBoxSettings().lid);   // 第一人称时墙壁设为不透明／第三人称时恢复透明
     personA.headParts.visible = true; personA.nameTag.visible = true;
     personB.headParts.visible = true; personB.nameTag.visible = true;
     if (currentView === 'A') { personA.headParts.visible = false; personA.nameTag.visible = false; }
@@ -1962,11 +1962,78 @@ function shareToX() {
     const nB = document.getElementById('nameB').value || 'B';
     const hA = parseFloat(document.getElementById('heightA').value) || 158.0;
     const hB = parseFloat(document.getElementById('heightB').value) || 171.5;
-    const text = `${nB}(${hB.toFixed(1)}cm)と${nA}(${hA.toFixed(1)}cm)を箱詰め！\n#箱詰めシミュレーター\n`;
+    const text = `${nB}（${hB.toFixed(1)}cm）和 ${nA}（${hA.toFixed(1)}cm）被装进了箱子里！\n#装箱模拟器\n`;
     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(window.location.href)}`, '_blank');
 }
 
 init();
+</script>
+
+<script>
+/* 设置持久化：名字・身高・颜色等会记住，刷新后自动恢复 */
+(function () {
+  var KEY = 'simSettings:' + location.pathname;
+  var SKIP = { seek: 1, pVol: 1 };
+  function list() {
+    var els = document.querySelectorAll('input,select,textarea'), out = [], i, el;
+    for (i = 0; i < els.length; i++) {
+      el = els[i];
+      if (el.type === 'file' || el.type === 'button' || el.type === 'submit' || el.type === 'reset') continue;
+      if (el.id && SKIP[el.id]) continue;
+      out.push(el);
+    }
+    return out;
+  }
+  function keyOf(el) {
+    if (el.id) return 'id:' + el.id;
+    var cn = (el.className || '').split(/\s+/)[0];
+    if (!cn) return null;
+    var sibs = document.querySelectorAll(el.tagName.toLowerCase() + '[class~="' + cn + '"]'), i;
+    for (i = 0; i < sibs.length; i++) if (sibs[i] === el) return 'cls:' + cn + ':' + i;
+    return null;
+  }
+  function get(el) {
+    return (el.type === 'checkbox' || el.type === 'radio') ? el.checked : el.value;
+  }
+  function set(el, v) {
+    var i;
+    if (el.tagName === 'SELECT') {
+      var ok = false;
+      for (i = 0; i < el.options.length; i++) if (el.options[i].value === v) ok = true;
+      if (!ok) return;
+    }
+    if (el.type === 'checkbox' || el.type === 'radio') el.checked = !!v;
+    else el.value = v;
+  }
+  function fire(el, type) {
+    try { el.dispatchEvent(new Event(type, { bubbles: true })); } catch (e) {}
+  }
+  function restore() {
+    var raw = null, data = null, els, k, i;
+    try { raw = localStorage.getItem(KEY); } catch (e) { return; }
+    if (!raw) return;
+    try { data = JSON.parse(raw); } catch (e) { return; }
+    els = list();
+    for (i = 0; i < els.length; i++) { k = keyOf(els[i]); if (k && data[k] !== undefined) set(els[i], data[k]); }
+    for (i = 0; i < els.length; i++) { fire(els[i], 'input'); fire(els[i], 'change'); }
+    for (i = 0; i < els.length; i++) { k = keyOf(els[i]); if (k && data[k] !== undefined) set(els[i], data[k]); }
+  }
+  var timer = null;
+  function save() {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(function () {
+      var els = list(), data = {}, k, i;
+      for (i = 0; i < els.length; i++) { k = keyOf(els[i]); if (k) data[k] = get(els[i]); }
+      try { localStorage.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+    }, 200);
+  }
+  document.addEventListener('input', save, true);
+  document.addEventListener('change', save, true);
+  window.addEventListener('load', restore);
+  window.__simSettings = {
+    clear: function () { try { localStorage.removeItem(KEY); } catch (e) {} }
+  };
+})();
 </script>
 </body>
 </html>
